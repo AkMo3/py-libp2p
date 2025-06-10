@@ -15,6 +15,7 @@ authors = [
     { name = "The Ethereum Foundation", email = "snakecharmers@ethereum.org" },
 ]
 dependencies = [
+    "aioquic>=1.2.0",
     "base58>=1.0.3",
     "coincurve>=10.0.0",
     "exceptiongroup>=1.2.0; python_version < '3.11'",
