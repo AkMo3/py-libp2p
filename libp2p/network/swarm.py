@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from multiaddr import (
     Multiaddr,
@@ -52,6 +53,11 @@ from .exceptions import (
     SwarmException,
 )
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
 logger = logging.getLogger("libp2p.network.swarm")
 
 
@@ -241,6 +247,7 @@ class Swarm(Service, INetworkService):
               - Map multiaddr to listener
         """
         # We need to wait until `self.listener_nursery` is created.
+        logger.debug("SWARM LISTEN CALLED")
         await self.event_listener_nursery_created.wait()
 
         for maddr in multiaddrs:
