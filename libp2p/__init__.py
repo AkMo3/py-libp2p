@@ -191,7 +191,6 @@ def new_swarm(
         quic_config: QUICTransportConfig | None = transport_opt.get('quic_config')
 
         if quic_config:
-            print("Creating Server Side QUIC Transport")
             transport = QUICTransport(key_pair.private_key, quic_config)
         else:
             transport = TCP()
@@ -200,7 +199,6 @@ def new_swarm(
         if addr.__contains__("tcp"):
             transport = TCP()
         elif addr.__contains__("quic"):
-            print("Creating Client Side QUIC Transport", addr)
             transport_opt = transport_opt or {}
             quic_config = transport_opt.get('quic_config', QUICTransportConfig())
             transport = QUICTransport(key_pair.private_key, quic_config)
