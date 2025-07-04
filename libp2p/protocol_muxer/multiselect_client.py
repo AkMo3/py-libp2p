@@ -60,7 +60,6 @@ class MultiselectClient(IMultiselectClient):
         :raise MultiselectClientError: raised when protocol negotiation failed
         """
         await self.handshake(communicator)
-        print("Protocols: ", protocols)
 
         for protocol in protocols:
             try:
@@ -122,7 +121,6 @@ class MultiselectClient(IMultiselectClient):
         except MultiselectCommunicatorError as error:
             raise MultiselectClientError() from error
 
-        print("Response: ", response)
         if response == protocol:
             return protocol
         if response == PROTOCOL_NOT_FOUND_MSG:
