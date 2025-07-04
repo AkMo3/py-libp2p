@@ -145,7 +145,6 @@ class MultiselectClient(IMultiselectClient):
         except MultiselectCommunicatorError as error:
             raise MultiselectClientError() from error
 
-        print("Response: ", response)
         if response == protocol:
             return protocol
         if response == PROTOCOL_NOT_FOUND_MSG:
