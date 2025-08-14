@@ -263,6 +263,7 @@ def new_host(
     muxer_preference: Literal["YAMUX", "MPLEX"] | None = None,
     listen_addrs: Sequence[multiaddr.Multiaddr] | None = None,
     enable_mDNS: bool = False,
+    bootstrap: list[str] | None = None,
     negotiate_timeout: int = DEFAULT_NEGOTIATE_TIMEOUT,
     transport_opt: dict[Any, Any] | None = None,
 ) -> IHost:
@@ -278,6 +279,7 @@ def new_host(
     :param listen_addrs: optional list of multiaddrs to listen on
     :param enable_mDNS: whether to enable mDNS discovery
     :param transport_opt: optional dictionary of properties of transport
+    :param bootstrap: optional list of bootstrap peer addresses as strings
     :return: return a host instance
     """
     swarm = new_swarm(
@@ -291,7 +293,7 @@ def new_host(
     )
 
     if disc_opt is not None:
-        return RoutedHost(swarm, disc_opt, enable_mDNS)
-    return BasicHost(network=swarm,enable_mDNS=enable_mDNS , negotitate_timeout=negotiate_timeout)
+        return RoutedHost(swarm, disc_opt, enable_mDNS, bootstrap)
+    return BasicHost(network=swarm,enable_mDNS=enable_mDNS , bootstrap=bootstrap, negotitate_timeout=negotiate_timeout)
 
 __version__ = __version("libp2p")
