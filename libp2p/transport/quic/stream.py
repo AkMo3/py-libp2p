@@ -392,6 +392,9 @@ class QUICStream(IMuxedStream):
             if self._state == StreamState.RESET:
                 return
 
+            if self._state == StreamState.CLOSED:
+                return
+
             logger.debug(
                 f"Resetting stream {self.stream_id} with error code {error_code}"
             )
@@ -465,16 +468,11 @@ class QUICStream(IMuxedStream):
 
         if end_stream:
             self._read_closed = True
-            async with self._state_lock:
-                if self._write_closed:
-                    self._state = StreamState.CLOSED
-                else:
-                    self._state = StreamState.READ_CLOSED
+            self._write_closed = True
 
             # Wake up readers to process remaining data and EOF
             self._receive_event.set()
-
-            logger.debug(f"Stream {self.stream_id} received FIN")
+            await self.close()
 
     async def handle_stop_sending(self, error_code: int) -> None:
         """
